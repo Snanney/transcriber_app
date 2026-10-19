@@ -24,3 +24,12 @@ What I learned:
   React:
     - React has components that are a function, this returns what should
     be on screen
+
+    useState:
+      - a hook, a built-in React function
+        - All hooks must be called in at the top of level of a component (FilePicker.tsx is a component)
+
+
+  Why component function instead of normal variable?
+    - React re-runs your component function every time it needs to update the screen.
+    - Changing a normal variable doesn't tell React anything changed.
