@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { formatFileSize } from "../utils/formateFileSize";
 
 // export makes funciton available to other files
 export function FilePicker() {
@@ -17,7 +18,13 @@ export function FilePicker() {
         <div> 
             <h2>Choose an audio file</h2>
             <input type="file" accept=".mp3, .mp4, .wav" onChange={handleFileChange} />
-            {selectedFile !== null && <p>Selected: {selectedFile.name}</p>}
+            {selectedFile !== null && (
+                <div>
+                    <p>Name: {selectedFile.name}</p>
+                    <p>Size: {formatFileSize(selectedFile.size)}</p>
+                    <p>Type: {selectedFile.type}</p>
+                </div>
+            )}
         </div>
         // The onChange event here is triggered when the user selects a file, then it runs the function handleFileChange
     )
