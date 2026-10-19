@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { FilePicker } from './components/FilePicker'
 import './App.css'
+
 
 function App() {
 
@@ -10,6 +12,8 @@ function App() {
           <h1>Transcriber</h1>
         </div>
       </section>
+
+      <FilePicker />
     </>
   )
 }
