@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { FilePicker } from './components/FilePicker'
 import './App.css'
 
