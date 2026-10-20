@@ -6,11 +6,13 @@ import { decodeToMono16k } from "../audio/decodeToMono16k";
 type PickerState =
     | { status: "empty" }
     | { status: "valid"; file: File }
-    | { status: "invalid"; fileName: string; reason: string };
+    | { status: "invalid"; fileName: string; reason: string }
+    | { status: "decoding"; file: File}
+    | { status: "decoded"; file: File; sampleCount: number }
+    | { status: "error"; fileName: string; message: string };
 
 // export makes funciton available to other files
-export function FilePicker() {
-    // const [selectedFile, setSelectedFile] = useState<File | null>(null);
+export async function FilePicker() {
     const [pickerState, setPickerState] = useState<PickerState>({ status: "empty" });
 
     async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -25,8 +27,15 @@ export function FilePicker() {
 
         if (result.valid) {
             setPickerState({ status: "valid", file });
-            const samples = await decodeToMono16k(file);
-            console.log(samples.length, samples.length / 16000);
+
+            setPickerState({ status: "decoding", file });
+
+            try {
+                const samples = await decodeToMono16k(file);
+                setPickerState({ status: "decoded", file, sampleCount: samples.length });
+            } catch (error) {
+                setPickerState({ status: "error", fileName: file.name, message: "Failed to decode audio file." });
+            }
         } else {
             setPickerState({ status: "invalid", fileName: file.name, reason: result.reason });
         }
@@ -51,6 +60,5 @@ export function FilePicker() {
                 </p>
                 )}
         </div>
-        // The onChange event here is triggered when the user selects a file, then it runs the function handleFileChange
     )
 }
