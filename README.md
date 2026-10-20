@@ -8,12 +8,17 @@ Status: IN PROGRESS
 Completed:
 Clean Commit of base line to github
 
-In Progress:
-
 Milestone 1: file picker
   - componet that allows you to select a file from you computer
   - should be able to see file size, type, and name
   - if file isn't .mp3, .mp4, or .wav an error is shown
+
+In Progress:
+
+Milestone 2: Audio files into raw audio samples
+  - The Whisper model can't read an mp3 or mp4 so we need the audio
+  it will transcribe from to be a plain list of numbers describing
+  the sound wave.
 
 
 What I learned:

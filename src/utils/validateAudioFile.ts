@@ -5,7 +5,7 @@ export type ValidationResult =
 export function validateAudioFile(file: File): ValidationResult {
     const name = file.name.toLowerCase();
 
-    const allowedExtensions = ['.mp3', '.wav', '.mp4'];
+    const allowedExtensions = ['.mp3', '.wav', '.mp4', '.mkv'];
 
     const hasAllowedExtension = allowedExtensions.some((ext) => name.endsWith(ext));
 

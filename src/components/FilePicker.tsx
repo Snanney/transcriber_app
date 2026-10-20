@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { formatFileSize } from "../utils/formateFileSize";
 import { validateAudioFile } from "../utils/validateAudioFile";
+import { decodeToMono16k } from "../audio/decodeToMono16k";
 
 type PickerState =
     | { status: "empty" }
@@ -12,7 +13,7 @@ export function FilePicker() {
     // const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [pickerState, setPickerState] = useState<PickerState>({ status: "empty" });
 
-    function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
         const files = event.target.files;
         if (files === null || files.length === 0) {
             setPickerState({ status: "empty" });
@@ -24,6 +25,8 @@ export function FilePicker() {
 
         if (result.valid) {
             setPickerState({ status: "valid", file });
+            const samples = await decodeToMono16k(file);
+            console.log(samples.length, samples.length / 16000);
         } else {
             setPickerState({ status: "invalid", fileName: file.name, reason: result.reason });
         }
@@ -33,7 +36,7 @@ export function FilePicker() {
         // container, JSX must return one outer element and this lets us wrap multiple elements in a single container
         <div> 
             <h2>Choose an audio file</h2>
-            <input type="file" accept=".mp3, .mp4, .wav" onChange={handleFileChange} />
+            <input type="file" accept=".mp3, .mp4, .wav, .mkv" onChange={handleFileChange} />
                 {pickerState.status === "valid" && (
                 <div>
                     <p>Name: {pickerState.file.name}</p>
